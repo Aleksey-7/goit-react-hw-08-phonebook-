@@ -25,7 +25,7 @@ function RegisterForm() {
   return (
     <Form onSubmit={handleSubmit} autoComplete="off">
       <TextField
-        id="standard-basic"
+        id="standard-basic-name"
         type="text"
         name="name"
         label="User name"
@@ -40,7 +40,7 @@ function RegisterForm() {
         }}
       />
       <TextField
-        id="standard-basic"
+        id="standard-basic-email"
         type="email"
         name="email"
         label="Email"
@@ -55,7 +55,7 @@ function RegisterForm() {
         }}
       />
       <TextField
-        id="standard-basic"
+        id="standard-basic-password"
         type="password"
         name="password"
         label="Password"

@@ -39,7 +39,7 @@ export const ContactForm = () => {
   return (
     <Form onSubmit={handleSubmit} autoComplete="off">
       <TextField
-        id="standard-basic"
+        id="standard-basic-name"
         type="text"
         name="name"
         label="Name"
@@ -58,7 +58,7 @@ export const ContactForm = () => {
         }}
       />
       <TextField
-        id="standard-basic"
+        id="standard-basic-phone"
         type="tel"
         name="number"
         label="Number"
