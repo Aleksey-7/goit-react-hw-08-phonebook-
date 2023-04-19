@@ -1,9 +1,11 @@
-import styled from 'styled-components';
+import styled from '@emotion/styled';
 
 export const Item = styled.li`
+  min-width: 380px;
   display: flex;
+  align-items: center;
   &:not(:last-child) {
-    margin-bottom: 12px;
+    margin-bottom: 5px;
   }
 `;
 
@@ -17,12 +19,36 @@ export const ContactName = styled.p`
   display: flex;
   gap: 10px;
   max-width: 245px;
-  font-size: 15px;
+  font-family: 'Segoe UI';
+  font-size: 18px;
   font-weight: 600;
+  color: white;
 `;
 export const ContactTel = styled.p`
   display: flex;
   gap: 10px;
   max-width: 245px;
-  font-size: 14px;
+  font-family: 'Segoe UI';
+  font-size: 16px;
+  color: white;
+`;
+
+export const ContactEditInfo = styled.form`
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+`;
+export const ContactEditInput = styled.input`
+  border: 1px solid orangered;
+  border-radius: 4px;
+  outline: 1px solid orangered;
+`;
+
+export const ContactEditLabel = styled.label`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  font-family: 'Segoe UI';
+  font-size: 12px;
 `;

@@ -1,18 +1,52 @@
 import { useDispatch } from 'react-redux';
-import { filterContacts } from 'redux/filterSlice';
-import { FilterLabel, Input, Text } from './Filter.styled';
+import {
+  filterContacts,
+  filterContactsByNumber,
+} from 'redux/contacts/filterSlice';
+import { Box, TextField } from '@mui/material';
 
-export function Filter() {
+function Filter() {
   const dispatch = useDispatch();
 
   const handleSetFilter = evt => {
     dispatch(filterContacts(evt.currentTarget.value));
   };
 
+  const handleSetFilterByNumber = evt => {
+    dispatch(filterContactsByNumber(evt.currentTarget.value));
+  };
+
   return (
-    <FilterLabel>
-      <Text>Find contacts by name</Text>
-      <Input type="text" onChange={handleSetFilter} />
-    </FilterLabel>
+    <Box sx={{ display: 'flex', gap: '20px' }}>
+      <TextField
+        id="standard-basic"
+        type="text"
+        label="Find contacts by name"
+        variant="standard"
+        onChange={handleSetFilter}
+        sx={{
+          mb: '1rem',
+          color: '#1976d2',
+          backgroundColor: '#fffefe',
+          borderRadius: '3px',
+        }}
+      />
+
+      <TextField
+        id="standard-basic"
+        type="text"
+        label="Find contacts by number"
+        variant="standard"
+        onChange={handleSetFilterByNumber}
+        sx={{
+          mb: '1rem',
+          color: '#1976d2',
+          backgroundColor: '#fffefe',
+          borderRadius: '3px',
+        }}
+      />
+    </Box>
   );
 }
+
+export default Filter;

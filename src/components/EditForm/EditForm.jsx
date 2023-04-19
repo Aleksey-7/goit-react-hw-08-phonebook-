@@ -1,9 +1,9 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import { FaUserAlt } from 'react-icons/fa';
+import { HiUser } from 'react-icons/hi';
 import { ImPhone } from 'react-icons/im';
 import { Formik, ErrorMessage } from 'formik';
-import * as Yup from 'yup';
+import { object, string } from 'yup';
 import {
   EditFormStyled,
   EditInput,
@@ -12,51 +12,60 @@ import {
   EditFormWrapper,
 } from './EditForm.styled';
 
-const FormSchema = Yup.object().shape({
-  name: Yup.string()
-    .min(2, 'Too Short!')
-    .max(50, 'Too Long!')
-    .required('Required'),
-  phonenumber: Yup.number()
-    .positive('!!! > 0 !!!')
-    .min(2, 'Too Short!')
-    .required('Required'),
+const nameRegExp = /^[a-zA-Zа-яА-Я0-9]{3,}$/;
+const phoneRegExp = /[0-9]{10,13}/;
+
+let userValidSchema = object({
+  name: string().matches(nameRegExp, 'Name is not valid!').required(),
+  number: string()
+    .matches(phoneRegExp, 'Phone number is not valid!')
+    .required(),
 });
 
-export const EditForm = ({ name, phonenumber, onEditContact, children }) => {
+function EditForm({ name, number, onEditContact, children }) {
   const handleSubmit = (values, { resetForm }) => {
-    const { name, phonenumber } = values;
-    onEditContact(name, phonenumber);
+    const { name, number } = values;
+    onEditContact(name, number);
     resetForm();
   };
   return (
     <Formik
-      initialValues={{ name, phonenumber }}
-      validationSchema={FormSchema}
+      initialValues={{ name, number }}
+      validationSchema={userValidSchema}
       onSubmit={handleSubmit}
     >
       <EditFormStyled autoComplete="off">
         <EditFormWrapper>
           <EditFormLabel>
-            <FaUserAlt fill="lightgreen" />
-            <EditInput type="text" name="name" />
+            <HiUser fill="#1664e2" />
+            <EditInput
+              type="text"
+              name="name"
+              title="Name may contain only letters, apostrophe, dash and spaces. For example Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan"
+            />
             <ErrorMessage component={CustomError} name="name" />
           </EditFormLabel>
           <EditFormLabel>
-            <ImPhone fill="lightgreen" />
-            <EditInput type="tel" name="phonenumber" />
-            <ErrorMessage component={CustomError} name="phonenumber" />
+            <ImPhone fill="#1664e2" />
+            <EditInput
+              type="tel"
+              name="number"
+              title="Phone number must be digits and can contain spaces, dashes, parentheses and can start with +"
+            />
+            <ErrorMessage component={CustomError} name="number" />
           </EditFormLabel>
         </EditFormWrapper>
         {children}
       </EditFormStyled>
     </Formik>
   );
-};
+}
 
 EditForm.propTypes = {
   name: PropTypes.string.isRequired,
-  phonenumber: PropTypes.string.isRequired,
+  number: PropTypes.string.isRequired,
   children: PropTypes.node,
   onEditContact: PropTypes.func.isRequired,
 };
+
+export default EditForm;

@@ -1,89 +1,94 @@
 import { useState } from 'react';
+import { useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
-import { FaUserAlt } from 'react-icons/fa';
+import { HiUser } from 'react-icons/hi';
 import { ImPhone } from 'react-icons/im';
 import {
-  Item,
   ContactTel,
   ContactName,
   ContactInfo,
 } from 'components/ContactItem/ContactItem.styled';
 import { Controls, ControlsSave } from 'components/Control/Control';
-import { EditForm } from '../EditForm/EditForm';
-import { useDispatch } from 'react-redux';
-import { deleteContact, editContact } from '../../redux/operations';
+import EditForm from 'components/EditForm';
+import { editContact, deleteContact } from 'redux/contacts/contactsOperation';
+import { Box } from '@mui/material';
+import { cardNumberFormating } from 'utilities/cardNumberFormating';
 
-export function ContactItem({ name, phonenumber, id }) {
+function ContactItem({ name, number, id }) {
   const [editName, setEditName] = useState(name);
-  const [editPhonenumber, setEditPhonenumber] = useState(phonenumber);
+  const [editNumber, setEditNumber] = useState(number);
   const [isEdit, setIsEdit] = useState(false);
 
   const dispatch = useDispatch();
 
-  const handleDeleteContact = () => {
+  const handleDeleteContact = id => {
     dispatch(deleteContact(id));
   };
 
-  const handleEditContact = (newName, newPhonenumber) => {
+  const handleEditContact = (newName, newNumber) => {
     if (!isEdit) {
       setIsEdit(true);
     } else {
-      setEditName(newName);
-      setEditPhonenumber(newPhonenumber);
+      setEditName(prevName => (newName ? newName : prevName));
+      setEditNumber(prevNumber => (newNumber ? newNumber : prevNumber));
       setIsEdit(false);
 
       dispatch(
         editContact({
-          id,
-          name: newName,
-          phonenumber: newPhonenumber,
+          id: id,
+          name: newName ? newName : name,
+          number: newNumber ? newNumber : number,
         })
       );
     }
   };
 
   return (
-    <Item>
+    <Box
+      component="li"
+      sx={{ display: 'flex', justifyContent: 'space-between', mb: '10px' }}
+    >
       {/* if contact saved show contact info */}
 
       {!isEdit && (
-        <ContactInfo>
-          <ContactName>
-            <FaUserAlt />
-            {editName}:
-          </ContactName>
+        <>
+          <ContactInfo>
+            <ContactName>
+              <HiUser fill="#1976d2" />
+              {name}:
+            </ContactName>
 
-          <ContactTel>
-            <ImPhone />
-            {editPhonenumber}
-          </ContactTel>
-        </ContactInfo>
+            <ContactTel>
+              <ImPhone fill="#1976d2" />
+              {cardNumberFormating(number)}
+            </ContactTel>
+          </ContactInfo>
+          <Controls
+            id={id}
+            onDeleteContact={handleDeleteContact}
+            onEditContact={handleEditContact}
+          />
+        </>
       )}
 
       {/* if contact is edit show edit form */}
       {isEdit && (
         <EditForm
           name={editName}
-          phonenumber={editPhonenumber}
+          number={editNumber}
           onEditContact={handleEditContact}
         >
           <ControlsSave id={id} onDeleteContact={handleDeleteContact} />
         </EditForm>
       )}
-
-      {!isEdit && (
-        <Controls
-          id={id}
-          onDeleteContact={handleDeleteContact}
-          onEditContact={handleEditContact}
-        />
-      )}
-    </Item>
+    </Box>
   );
 }
 
 ContactItem.propTypes = {
   name: PropTypes.string.isRequired,
-  phonenumber: PropTypes.string.isRequired,
+  number: PropTypes.string.isRequired,
   id: PropTypes.string.isRequired,
 };
+
+export default ContactItem;
