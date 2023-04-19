@@ -26,7 +26,7 @@ function LogInForm() {
       <TextField
         type="email"
         name="email"
-        id="standard-basic"
+        id="standard-basic-name"
         label="Email"
         required
         variant="standard"
@@ -41,7 +41,7 @@ function LogInForm() {
       <TextField
         type="password"
         name="password"
-        id="standard-basic"
+        id="standard-basic-password"
         label="Password"
         required
         variant="standard"

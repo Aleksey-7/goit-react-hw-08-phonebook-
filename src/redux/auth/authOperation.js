@@ -3,7 +3,6 @@ import axios from 'axios';
 import { toast } from 'react-hot-toast';
 
 axios.defaults.baseURL = 'https://connections-api.herokuapp.com/';
-// axios.defaults.baseURL = 'https://goit-task-manager.herokuapp.com/';
 
 // Utility to add JWT
 const setAuthHeader = token => {
